@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google search engine & wikipedia tool  </title>
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Google Search Engine & Wikipedia Tool
+        </h1>
+            <form action="/search" method="post">
+                <div class="form-group">
+                   <label for="topic">Enter any Topic: </label>
+                   <input type="text" class="form-control" name="topic" required placeholder="Enter any topic">
+                </div>
+                <div class="form-group">
+                    <label for="language">Select language:</label>
+                    <select name="language" class="form-control" id="">
+                        <option value="af">Africaans</option>
+                        <option value="sq">Albanian</option>
+                        <option value="am">Amharic</option>
+                       <option value="en" selected>English</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                        <option value="es">Spanish</option>
+                        <option value="sw">Swahili</option>
+                        <option value="zh">Chinese</option>
+
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Search Topic</button>
+            </form>
+            <br>
+            
+            <% if(knowledgePanel) { %>
+                <h1 class="mt-5">knowledge Panel</h1>
+                  <%# Show image if available %>
+    <% if (image) { %>
+        <img src="<%= image %>" alt="<%= knowledgePanel.title %>" class="img-thumbnail mb-3" style="max-width: 200px;"/>
+    <% } %>
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <th>Title</th>
+                            
+                            <td>
+                                <%= knowledgePanel.title %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Description</th>
+                            <td>
+                                <%= knowledgePanel.description %>
+                            </td>
+                        </tr>
+                  
+                        <tr>
+                        <th>URL</th>
+                        <td>
+                            <a href="<%= knowledgePanel.url %>" target="_blank">
+                            <%= knowledgePanel.url %>
+                        </a> </td>
+                        </tr>
+<% if (knowledgePanel && knowledgePanel.metadata && knowledgePanel.metadata.length > 0) { %>
+                        <% knowledgePanel.metadata.forEach(meta=> { %>
+                            <tr>
+                                <th>
+                                    <%= meta.title %>
+                                </th>
+                                <td>
+                                    <%= meta.value %>
+                                </td>
+                            </tr>
+                       <% })%> 
+                       <% } %>
+                    </tbody>
+                </table>
+                <%}%>
+
+                <% if (wikiSummary) { %>
+    <h2 class="mt-5">Wikipedia Summary</h2>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title"><%= wikiSummary.title %></h5>
+            <p class="card-text"><%= wikiSummary.extract %></p>
+            <a href="<%= wikiSummary.url %>" target="_blank" class="btn btn-secondary">
+                Read Full Article
+            </a>
+        </div>
+    </div>
+<% } %>
+      
+    </div>
+</body>
+</html>
