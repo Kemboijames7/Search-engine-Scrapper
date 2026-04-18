@@ -94,5 +94,31 @@
 <% } %>
       
     </div>
+   <% if (typeof polling !== 'undefined' && polling) { %>
+<div id="loading" class="text-center mt-4">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p class="mt-2">Searching...</p>
+</div>
+
+<script>
+    const jobId = "<%= jobId %>";
+    console.log('Polling for jobId:', jobId);
+
+    const poll = setInterval(async () => {
+        try {
+            const res = await fetch(`/result/${jobId}`);
+            const data = await res.json();
+            console.log('Poll response:', data.status);
+
+            if (data.status === 'done') {
+                clearInterval(poll);
+                window.location.href = `/done/${jobId}`;
+            }
+        } catch (err) {
+            console.error('Polling error:', err);
+        }
+    }, 1000);
+</script>
+<% } %>
 </body>
 </html>
